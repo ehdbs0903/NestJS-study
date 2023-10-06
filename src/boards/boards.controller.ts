@@ -1,7 +1,6 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { BoardsService } from './boards.service';
-import { Board } from './board.model';
-import { create } from 'domain';
+import { Board, BoardStatus } from './board.model';
 import { CreateBoardDto } from './dto/create-board.dto';
 
 @Controller('boards')
@@ -28,5 +27,13 @@ export class BoardsController {
 	@Delete('/:id')
 	deleteBoard(@Param('id') id: string): void {
 		this.boardService.deleteBoard(id);
+	}
+
+	@Patch('/:id/status')
+	updateBoardStatus(
+		@Param('id') id: string,
+		@Body('status') status: BoardStatus,
+	) {
+		return this.boardService.updateBoardStatus(id, status);
 	}
 }
